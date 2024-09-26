@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Home - Online Quiz{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Welcome to Online Quiz</h1>
+    {% if 'user_id' in session %}
+        <p>Hello, {{ username }}! Ready to test your knowledge?</p>
+        <a href="{{ url_for('quiz') }}" class="btn">Start Quiz</a>
+    {% else %}
+        <p>Please log in or register to take a quiz.</p>
+        <a href="{{ url_for('login') }}" class="btn">Login</a>
+        <a href="{{ url_for('register') }}" class="btn">Register</a>
+    {% endif %}
+</div>
+{% endblock %}

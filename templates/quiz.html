@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Quiz - Online Quiz{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Quiz</h1>
+    <div id="timer">Time left: <span id="time-left"></span></div>
+    <form method="POST" action="{{ url_for('submit_quiz') }}" id="quiz-form">
+        {% for question in questions %}
+        <div class="question">
+            <h3>{{ question.text }}</h3>
+            {% for option in question.options %}
+            <div class="option">
+                <input type="radio" id="q{{ question.id }}_{{ option.id }}" name="q{{ question.id }}" value="{{ option.text }}" required>
+                <label for="q{{ question.id }}_{{ option.id }}">{{ option.text }}</label>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn">Submit Quiz</button>
+    </form>
+</div>
+
+<script>
+    let timeLeft = {{ quiz_duration }};
+    const timerElement = document.getElementById('time-left');
+    const quizForm = document.getElementById('quiz-form');
+
+    function updateTimer() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            quizForm.submit();
+        } else {
+            timeLeft--;
+        }
+    }
+
+    function checkServerTime() {
+        fetch('/check_time')
+            .then(response => response.json())
+            .then(data => {
+                timeLeft = data.time_left;
+                updateTimer();
+            });
+    }
+
+    const timerInterval = setInterval(updateTimer, 1000);
+    setInterval(checkServerTime, 30000);
+
+    updateTimer();
+</script>
+{% endblock %}
