@@ -1,13 +1,13 @@
-Introduction 
+**Introduction **
 An Online Quiz Application is a web-based platform designed to create, manage, and take quizzes.
 
-Purpose
+**Purpose**
 It serves educational institutions, corporate training programs, and general users for testing knowledge.
 
-Users
+**Users**
 Targets students, educators, trainers, and quiz enthusiasts
 
-Technology 
+**Technology **
 Utilizes web technologies like HTML, CSS, JavaScript for the frontend and Node.js, Django, or Flask for the backend.
 
 
